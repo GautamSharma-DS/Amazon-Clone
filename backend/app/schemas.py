@@ -10,9 +10,9 @@ class ProductBase(BaseModel):
     description: str | None = None
     category: str
     price: float
+    rating: float = 0.0
     image_url: str | None = None
     stock: int = 0
-
 
 class ProductCreate(ProductBase):
     pass

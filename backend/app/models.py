@@ -16,9 +16,9 @@ class Product(Base):
     description = Column(Text, nullable=True)
     category = Column(String(100), nullable=False)
     price = Column(Float, nullable=False)
+    rating = Column(Float, default=0.0)
     image_url = Column(String(500), nullable=True)
     stock = Column(Integer, default=0)
-
 
 # =========================
 # User Model

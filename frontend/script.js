@@ -7,82 +7,60 @@
    PRODUCTS
 ========================================================= */
 
-const products = [
+const API_BASE_URL = "http://127.0.0.1:8000";
 
-    {
-        id: 1,
-        name: "Premium Clothes Collection",
-        category: "Clothes",
-        price: 1299,
-        rating: 4.3,
-        image: "box1_image.jpg"
-    },
+let products = [];
 
-    {
-        id: 2,
-        name: "Personal Care Essentials",
-        category: "Health & Personal Care",
-        price: 899,
-        rating: 4.2,
-        image: "box2_image.jpg"
-    },
 
-    {
-        id: 3,
-        name: "Modern Home Furniture",
-        category: "Furniture",
-        price: 8999,
-        rating: 4.5,
-        image: "box3_image.jpg"
-    },
 
-    {
-        id: 4,
-        name: "Latest Electronics",
-        category: "Electronics",
-        price: 45999,
-        rating: 4.6,
-        image: "box4_image.jpg"
-    },
+async function loadProducts() {
 
-    {
-        id: 5,
-        name: "Beauty Essentials",
-        category: "Beauty",
-        price: 1499,
-        rating: 4.4,
-        image: "box5_image.jpg"
-    },
+    try {
 
-    {
-        id: 6,
-        name: "Pet Care Products",
-        category: "Pet Care",
-        price: 799,
-        rating: 4.5,
-        image: "box6_image.jpg"
-    },
+        const response = await fetch(
+            `${API_BASE_URL}/products/`
+        );
 
-    {
-        id: 7,
-        name: "Kids Toys Collection",
-        category: "Toys",
-        price: 1199,
-        rating: 4.3,
-        image: "box7_image.jpg"
-    },
+        if (!response.ok) {
+            throw new Error(
+                `Failed to fetch products: ${response.status}`
+            );
+        }
 
-    {
-        id: 8,
-        name: "Latest Fashion Trends",
-        category: "Fashion",
-        price: 2499,
-        rating: 4.5,
-        image: "box8_image.jpg"
+        const apiProducts = await response.json();
+
+        products = apiProducts.map(product => ({
+
+            id: product.id,
+
+            name: product.name,
+
+            description: product.description,
+
+            category: product.category,
+
+            price: product.price,
+
+            rating: product.rating ?? 0,
+
+            image: product.image_url,
+
+            stock: product.stock
+
+        }));
+
+        displayProducts(products);
+
+    } catch (error) {
+
+        console.error(
+            "Product loading error:",
+            error
+        );
+
     }
 
-];
-
+}
 
 /* =========================================================
    CART
@@ -1654,8 +1632,8 @@ function updateLanguageUI() {
 
 
     const hello =
-        document.querySelector(
-            ".nav-signin span"
+        document.getElementById(
+            "navbarGreeting"
         );
 
 
@@ -2313,45 +2291,96 @@ if (topLanguageButton) {
    ACCOUNT & LISTS
 ========================================================= */
 
-if (accountButton) {
+let accountPopupCloseTimer;
 
-    accountButton.addEventListener(
-        "click",
-        event => {
+const accountSignInButton = document.getElementById("accountSignInButton");
+const accountLogoutButton = document.getElementById("accountLogoutButton");
+const loggedOutSection = document.getElementById("loggedOutSection");
+const loggedInSection = document.getElementById("loggedInSection");
+const accountUserName = document.getElementById("accountUserName");
+const navbarGreeting = document.getElementById("navbarGreeting");
 
-            event.stopPropagation();
-
-            closeFooterPopups();
-
-            languagePopup?.classList.remove(
-                "show"
-            );
-
-            if (accountPopup) {
-
-                accountPopup.classList.toggle(
-                    "show"
-                );
-
-                if (
-                    accountPopup.classList.contains(
-                        "show"
-                    )
-                ) {
-
-                    positionPopupBelow(
-                        accountButton,
-                        accountPopup
-                    );
-
-                }
-
-            }
-
-        }
-    );
-
+function showAccountPopup() {
+    if (!accountPopup || !accountButton) return;
+    clearTimeout(accountPopupCloseTimer);
+    closeFooterPopups();
+    languagePopup?.classList.remove("show");
+    accountPopup.classList.add("show");
+    accountButton.setAttribute("aria-expanded", "true");
+    positionPopupBelow(accountButton, accountPopup);
 }
+
+function hideAccountPopup() {
+    clearTimeout(accountPopupCloseTimer);
+    accountPopupCloseTimer = setTimeout(() => {
+        accountPopup?.classList.remove("show");
+        accountButton?.setAttribute("aria-expanded", "false");
+    }, 180);
+}
+
+async function updateAccountState() {
+    const token = localStorage.getItem("access_token");
+
+    if (!token) {
+        if (loggedOutSection) loggedOutSection.hidden = false;
+        if (loggedInSection) loggedInSection.hidden = true;
+        if (navbarGreeting) navbarGreeting.textContent = "Hello, sign in";
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/auth/me`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (!response.ok) throw new Error("Session expired");
+        const user = await response.json();
+        const name = user.name || user.full_name || user.username || user.email || "Customer";
+
+        if (loggedOutSection) loggedOutSection.hidden = true;
+        if (loggedInSection) loggedInSection.hidden = false;
+        if (accountUserName) accountUserName.textContent = name;
+        if (navbarGreeting) navbarGreeting.textContent = `Hello, ${name}`;
+    } catch (error) {
+        localStorage.removeItem("access_token");
+        if (loggedOutSection) loggedOutSection.hidden = false;
+        if (loggedInSection) loggedInSection.hidden = true;
+        if (navbarGreeting) navbarGreeting.textContent = "Hello, sign in";
+    }
+}
+
+if (accountButton) {
+    accountButton.addEventListener("mouseenter", showAccountPopup);
+    accountButton.addEventListener("mouseleave", hideAccountPopup);
+
+    accountButton.addEventListener("click", event => {
+        event.preventDefault();
+        window.location.href = "login.html";
+    });
+
+    accountButton.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            window.location.href = "login.html";
+        }
+    });
+}
+
+if (accountPopup) {
+    accountPopup.addEventListener("mouseenter", () => clearTimeout(accountPopupCloseTimer));
+    accountPopup.addEventListener("mouseleave", hideAccountPopup);
+}
+
+if (accountLogoutButton) {
+    accountLogoutButton.addEventListener("click", event => {
+        event.preventDefault();
+        localStorage.removeItem("access_token");
+        updateAccountState();
+        accountPopup?.classList.remove("show");
+        accountButton?.setAttribute("aria-expanded", "false");
+    });
+}
+
 
 
 /* =========================================================
@@ -2834,7 +2863,7 @@ if (dealNext) {
 
 updateCartCount();
 
-displayProducts(products);
+loadProducts();
 
 renderCartPage();
 
@@ -2842,4 +2871,143 @@ renderCountryList();
 
 updateLanguageUI();
 
+updateAccountState();
+
 updateDealButtons();
+
+/* ===== Account dropdown + sidebar menu behavior ===== */
+document.addEventListener("DOMContentLoaded", () => {
+  const popup = document.getElementById("accountPopup");
+  const signin = document.querySelector(".nav-signin");
+  const loginButton = document.getElementById("accountSignInButton");
+  const logoutButton = document.getElementById("accountLogoutButton");
+  const sideLogout = document.getElementById("sideMenuSignOut");
+  const userNameEl = document.getElementById("accountUserName");
+  const sideGreeting = document.getElementById("sideMenuGreeting");
+  const subGreeting = document.getElementById("sideSubmenuGreeting");
+  const loggedOut = document.getElementById("loggedOutSection");
+  const loggedIn = document.getElementById("loggedInSection");
+  const token = () => localStorage.getItem("access_token");
+  const readUser = () => {
+    try {
+      const raw = localStorage.getItem("user");
+      if (raw) return JSON.parse(raw);
+    } catch (_) {}
+    return null;
+  };
+  const syncAccount = async () => {
+    let user = readUser();
+    if (token()) {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/auth/me", {
+          headers: { Authorization: "Bearer " + token() }
+        });
+        if (response.ok) {
+          user = await response.json();
+          localStorage.setItem("user", JSON.stringify(user));
+        } else if (response.status === 401) {
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("user");
+          user = null;
+        }
+      } catch (_) {}
+    } else user = null;
+    const name = user?.name || user?.full_name || user?.email?.split("@")[0] || "";
+    const isLoggedIn = Boolean(token() && name);
+    if (loggedOut) loggedOut.hidden = isLoggedIn;
+    if (loggedIn) loggedIn.hidden = !isLoggedIn;
+    if (userNameEl) userNameEl.textContent = name;
+    if (signin) {
+      const label = signin.querySelector("#navbarGreeting") || signin.querySelector(".nav-signin-first") || signin.querySelector("span");
+      if (label) label.textContent = isLoggedIn ? "Hello, " + name : "Hello, sign in";
+      signin.setAttribute("aria-label", isLoggedIn ? "Hello, " + name + ", Accounts & Lists" : "Hello, sign in, Accounts & Lists");
+    }
+    if (sideGreeting) sideGreeting.textContent = isLoggedIn ? "Hello, " + name : "Hello, sign in";
+    if (subGreeting) subGreeting.textContent = isLoggedIn ? "Hello, " + name : "Hello, sign in";
+  };
+  syncAccount();
+
+  if (signin && popup) {
+    let closeTimer;
+    const show = () => { clearTimeout(closeTimer); popup.classList.add("show"); popup.setAttribute("aria-hidden","false"); };
+    const hide = () => { closeTimer=setTimeout(()=>{popup.classList.remove("show");popup.setAttribute("aria-hidden","true");},220); };
+    signin.addEventListener("mouseenter", show);
+    signin.addEventListener("mouseleave", hide);
+    popup.addEventListener("mouseenter", show);
+    popup.addEventListener("mouseleave", hide);
+    signin.addEventListener("click", e => {
+      if (token()) { e.preventDefault(); show(); }
+    });
+  }
+  loginButton?.addEventListener("click", () => { window.location.href = "login.html"; });
+  const signOut = async e => {
+    e?.preventDefault();
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("cart");
+    if (popup) popup.classList.remove("show");
+    await syncAccount();
+    window.location.href = "index.html";
+  };
+  logoutButton?.addEventListener("click", signOut);
+  sideLogout?.addEventListener("click", signOut);
+
+  document.querySelectorAll("[data-toggle-extra]").forEach(button => {
+    button.addEventListener("click", () => {
+      const group = button.dataset.toggleExtra;
+      const container = document.querySelector(`[data-expand-group="${group}"]`);
+      const extra = container?.querySelector(".side-extra-items");
+      if (!extra) return;
+      extra.hidden = !extra.hidden;
+      button.innerHTML = extra.hidden ? 'See all <span>⌄</span>' : 'See less <span>⌃</span>';
+    });
+  });
+
+  const mainPanel = document.getElementById("sideMenuMain");
+  const subPanel = document.getElementById("sideSubmenuPanel");
+  const subTitle = document.getElementById("sideSubmenuTitle");
+  const subLinks = document.getElementById("sideSubmenuLinks");
+  const submenuData = {
+    "Echo & Alexa": [["See all devices with Alexa","See all devices with Alexa"],["Content & Resources","heading"],["Meet Alexa","Meet Alexa"],["Alexa Skills","Alexa Skills"],["Alexa App","Alexa App"],["Alexa Smart Home","Alexa Smart Home"],["Amazon Prime Music","Amazon Prime Music"]],
+    "Fire TV": [["Amazon Prime Video","Amazon Prime Video"],["Fire TV Apps & Games","Fire TV Apps & Games"],["See all Fire TV devices","See all Fire TV devices"]],
+    "Kindle E-Readers & eBooks": [["All-new Kindle","All-new Kindle"],["All-new Kindle Paperwhite","All-new Kindle Paperwhite"],["Kindle Paperwhite Starter Pack","Kindle Paperwhite Starter Pack"],["All-New Kindle Oasis","All-New Kindle Oasis"],["Refurbished & Open Box","Refurbished & Open Box"],["Kindle E-Reader Accessories","Kindle E-Reader Accessories"],["See all Kindle E-readers","See all Kindle E-readers"],["Kindle eBooks","heading"],["All Kindle eBooks","All Kindle eBooks"],["Prime Reading","Prime Reading"],["Kindle Unlimited","Kindle Unlimited"],["Kindle Exam Central","Kindle Exam Central"],["Kindle eTextbooks","Kindle eTextbooks"],["eBook Bestsellers","eBook Bestsellers"],["eBooks in Indian Languages","eBooks in Indian Languages"],["Hindi","Hindi"],["Tamil","Tamil"]],
+    "Audible Audiobooks": [["Audible Membership","Audible Membership"],["All Audiobooks","All Audiobooks"],["Best Sellers","Best Sellers"],["New Releases","New Releases"],["Hindi Audiobook","Hindi Audiobook"]],
+    "Amazon Prime Video": [["All Videos","All Videos"],["Categories","Categories"],["My Stuff","My Stuff"]],
+    "Amazon Music": [["Amazon Music Unlimited","Amazon Music Unlimited"],["Amazon Music Unlimited Family","Amazon Music Unlimited Family"],["Amazon Prime Music","Amazon Prime Music"],["Amazon Music Free","Amazon Music Free"],["Open web player","Open web player"],["Amazon Music App","Amazon Music App"],["CDs and Vinyls","CDs and Vinyls"]]
+  };
+  document.querySelectorAll(".side-submenu-link").forEach(link => {
+    link.addEventListener("click", e => {
+      e.preventDefault();
+      const title = link.dataset.menuAction;
+      if (!submenuData[title] || !mainPanel || !subPanel) return;
+      subTitle.textContent = title;
+      subLinks.replaceChildren();
+      submenuData[title].forEach(([label, action]) => {
+        if (action === "heading") {
+          const h = document.createElement("h4"); h.textContent = label; subLinks.appendChild(h);
+        } else {
+          const a = document.createElement("a"); a.href="#"; a.textContent=label;
+          a.addEventListener("click", ev => ev.preventDefault());
+          subLinks.appendChild(a);
+        }
+      });
+      mainPanel.hidden = true; subPanel.hidden = false;
+    });
+  });
+  document.getElementById("sideSubmenuBack")?.addEventListener("click", () => {
+    if (subPanel) subPanel.hidden=true;
+    if (mainPanel) mainPanel.hidden=false;
+  });
+  document.querySelectorAll("[data-menu-action]").forEach(link => {
+    if (link.classList.contains("side-submenu-link")) return;
+    link.addEventListener("click", e => {
+      e.preventDefault();
+      const action = link.dataset.menuAction;
+      if (action === "switch-account") { window.location.href="login.html"; return; }
+      if (action === "your-account" || action === "orders" || action === "wishlist") {
+        if (!token()) window.location.href="login.html";
+        return;
+      }
+    });
+  });
+});

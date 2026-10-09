@@ -1,0 +1,502 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - Amazon.in</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #fff;
+            color: #111;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+        }
+
+        .page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Amazon.in wordmark */
+        
+        .logo {
+            margin: 18px auto 20px;
+            text-align: center;
+        }
+
+        .logo a {
+            display: inline-flex;
+            align-items: baseline;
+            justify-content: center;
+            position: relative;
+            text-decoration: none;
+            color: #111;
+        }
+
+        .logo img {
+            display: block;
+            width: 180px;
+            height: auto;
+            margin: 0;
+            filter: none;
+        }
+
+        
+        .logo-in {
+            position: absolute;
+            right: 0px;
+            top: 42px;
+            color: #111;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .brand-name {
+            font-size: 35px;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            line-height: 36px;
+            white-space: nowrap;
+        }
+
+        .brand-name .in {
+            font-size: 17px;
+            font-weight: 400;
+            letter-spacing: 0;
+        }
+
+        .smile {
+            width: 75px;
+            height: 13px;
+            margin-top: -1px;
+        }
+
+        /* Signup form */
+        .signup-card {
+            width: 360px;
+            max-width: calc(100% - 24px);
+            padding: 22px 23px 20px;
+            border: 1px solid #d5d9d9;
+            border-radius: 8px;
+            background: #fff;
+        }
+
+        h1 {
+            margin: 0 0 23px;
+            font-size: 24px;
+            line-height: 1.2;
+            font-weight: 400;
+        }
+
+        .form-group {
+            margin-bottom: 19px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            height: 42px;
+            padding: 8px 14px;
+            border: 1px solid #a6a6a6;
+            border-radius: 11px;
+            background: #fff;
+            color: #111;
+            font-family: inherit;
+            font-size: 16px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #007185;
+            box-shadow: 0 0 3px 2px rgba(0, 113, 133, 0.25);
+        }
+
+        .password-help {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin-top: 11px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .info-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 23px;
+            height: 23px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: #2879bd;
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+        }
+
+        .create-button {
+            width: 100%;
+            height: 42px;
+            margin: -1px 0 22px;
+            border: 1px solid #fcd200;
+            border-radius: 22px;
+            background: #ffd814;
+            color: #111;
+            font-family: inherit;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .create-button:hover {
+            background: #f7ca00;
+        }
+
+        .create-button:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        .legal-text {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.55;
+        }
+
+        .link {
+            color: #0066c0;
+            text-decoration: underline;
+        }
+
+        .link:hover {
+            color: #c45500;
+        }
+
+        .divider {
+            margin: 42px 0 32px;
+            border: 0;
+            border-top: 3px solid #d5d9d9;
+        }
+
+        .signin {
+            margin: 0;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        .signin a {
+            color: #0066c0;
+            text-decoration: none;
+        }
+
+        .signin a:hover {
+            color: #c45500;
+            text-decoration: underline;
+        }
+
+        .message {
+            display: none;
+            margin-bottom: 16px;
+            padding: 10px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .message.error {
+            display: block;
+            color: #b12704;
+            border: 1px solid #d5a6a6;
+            background: #fff8f8;
+        }
+
+        .message.success {
+            display: block;
+            color: #067d62;
+            border: 1px solid #a6d8c8;
+            background: #f3fffa;
+        }
+
+        /* Footer */
+        .footer {
+            width: 100%;
+            margin-top: 30px;
+            padding: 25px 15px 20px;
+            border-top: 1px solid #e7e7e7;
+            background: linear-gradient(to bottom, #fff, #fafafa);
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 28px;
+            margin-bottom: 18px;
+        }
+
+        .footer-links a {
+            color: #0066c0;
+            font-size: 12px;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: #c45500;
+            text-decoration: underline;
+        }
+
+        .copyright {
+            margin: 0;
+            color: #565959;
+            font-size: 11px;
+        }
+
+        @media (max-width: 480px) {
+            .brand-name {
+                font-size: 32px;
+            }
+
+            .signup-card {
+                padding: 22px 19px 20px;
+            }
+
+            h1 {
+                font-size: 30px;
+            }
+
+            .signin {
+                font-size: 15px;
+            }
+
+            .footer-links {
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+
+        <div class="logo">
+            <a href="index.html" aria-label="Amazon.in home">
+                <img src="amazon_logo_black.png" alt="Amazon">
+                <span class="logo-in">.in</span>
+            </a>
+        </div>
+                    
+
+
+        <main class="signup-card">
+            <h1>Create account</h1>
+
+            <div id="message"
+                 class="message"
+                 role="alert"
+                 aria-live="polite"></div>
+
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="name">Your name</label>
+                    <input type="text"
+                           id="name"
+                           name="name"
+                           placeholder="First and last name"
+                           autocomplete="name"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email"
+                           id="email"
+                           name="email"
+                           placeholder="Enter your email"
+                           autocomplete="email"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password"
+                           id="password"
+                           name="password"
+                           placeholder="At least 6 characters"
+                           minlength="6"
+                           autocomplete="new-password"
+                           required>
+
+                    <div class="password-help">
+                        <span class="info-icon">i</span>
+                        <span>Passwords must be at least 6 characters.</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Re-enter password</label>
+                    <input type="password"
+                           id="confirmPassword"
+                           name="confirmPassword"
+                           placeholder="Re-enter password"
+                           autocomplete="new-password"
+                           required>
+                </div>
+
+                <button type="submit"
+                        class="create-button"
+                        id="createButton">
+                    Create your Amazon account
+                </button>
+            </form>
+
+            <p class="legal-text">
+                By creating an account, you agree to Amazon's
+                <a href="#" class="link">Conditions of Use</a>
+                and
+                <a href="#" class="link">Privacy Notice</a>.
+            </p>
+
+            <hr class="divider">
+
+            <p class="signin">
+                Already have an account?
+                <a href="login.html">Sign in ›</a>
+            </p>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-links">
+                <a href="#" class="link">Conditions of Use</a>
+                <a href="#" class="link">Privacy Notice</a>
+                <a href="#" class="link">Help</a>
+            </div>
+
+            <p class="copyright">
+                © 1996-2026, Amazon.com, Inc. or its affiliates
+            </p>
+        </footer>
+
+    </div>
+
+    <script>
+        const API_BASE_URL = "http://127.0.0.1:8000";
+
+        const signupForm = document.getElementById("signupForm");
+        const messageBox = document.getElementById("message");
+        const createButton = document.getElementById("createButton");
+
+        function showMessage(message, type) {
+            messageBox.textContent = message;
+            messageBox.className = "message " + type;
+        }
+
+        signupForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const name =
+                document.getElementById("name").value.trim();
+
+            const email =
+                document.getElementById("email").value.trim();
+
+            const password =
+                document.getElementById("password").value;
+
+            const confirmPassword =
+                document.getElementById("confirmPassword").value;
+
+            if (!name || !email || !password || !confirmPassword) {
+                showMessage("Please fill in all fields.", "error");
+                return;
+            }
+
+            if (password.length < 6) {
+                showMessage(
+                    "Password must be at least 6 characters long.",
+                    "error"
+                );
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showMessage("Passwords do not match.", "error");
+                return;
+            }
+
+            createButton.disabled = true;
+            createButton.textContent = "Creating account...";
+            messageBox.className = "message";
+            messageBox.textContent = "";
+
+            try {
+                const response = await fetch(
+                    `${API_BASE_URL}/auth/signup`,
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            name: name,
+                            email: email,
+                            password: password
+                        })
+                    }
+                );
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        typeof data.detail === "string"
+                            ? data.detail
+                            : "Unable to create your account."
+                    );
+                }
+
+                showMessage(
+                    "Account created successfully! Redirecting to sign in...",
+                    "success"
+                );
+
+                signupForm.reset();
+
+                window.setTimeout(function () {
+                    window.location.href = "login.html";
+                }, 1200);
+
+            } catch (error) {
+                if (error instanceof TypeError) {
+                    showMessage(
+                        "Cannot connect to the backend. Start the FastAPI server and try again.",
+                        "error"
+                    );
+                } else {
+                    showMessage(error.message, "error");
+                }
+            } finally {
+                createButton.disabled = false;
+                createButton.textContent =
+                    "Create your Amazon account";
+            }
+        });
+    </script>
+</body>
+</html>

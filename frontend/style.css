@@ -2641,3 +2641,37 @@ body.side-menu-open {
         width: 330px;
     }
 }
+
+/* ===== Account & Lists dropdown ===== */
+.account-popup{display:none;position:absolute;z-index:5000;top:100%;right:5.5%;width:min(650px,94vw);background:#fff;color:#222;border:1px solid #d5d9d9;border-radius:4px;box-shadow:0 4px 14px #0004;padding:20px 24px;max-height:78vh;overflow:auto}
+.account-popup.show{display:block}
+.account-popup-arrow{position:absolute;top:-11px;right:145px;width:0;height:0;border-left:11px solid transparent;border-right:11px solid transparent;border-bottom:11px solid #fff}
+.account-popup #loggedOutSection{text-align:center;border-bottom:1px solid #ddd;padding-bottom:16px}
+.account-popup .account-signin-button{width:min(285px,100%);background:#ffd814;border:1px solid #fcd200;border-radius:9px;padding:11px;cursor:pointer;font-size:16px}
+.account-new-customer{font-size:13px;margin:10px 0 0}
+.account-popup-greeting{font-size:16px;font-weight:600;padding:0 0 15px;border-bottom:1px solid #ddd}
+.account-popup-columns{display:grid;grid-template-columns:1fr 1fr;gap:26px;padding-top:15px}
+.account-popup-columns section+section{border-left:1px solid #e5e5e5;padding-left:25px}
+.account-popup-columns h3{font-size:18px;margin:3px 0 12px}
+.account-popup-columns a{display:block;text-decoration:none;color:#444;padding:5px 0;font-size:15px}
+.account-popup-columns a:hover{text-decoration:underline;color:#c45500}
+.account-popup-columns hr{border:0;border-top:1px solid #ddd;margin:8px 0}
+.account-popup [hidden],.side-submenu-panel[hidden],.side-extra-items[hidden]{display:none!important}
+@media(max-width:650px){.account-popup{right:2%;width:96vw;padding:15px}.account-popup-columns{gap:12px}.account-popup-columns section+section{padding-left:12px}}
+/* ===== Amazon-style All sidebar enhancements ===== */
+.amazon-side-menu{overflow:hidden;display:flex;flex-direction:column}
+.side-menu-main,.side-submenu-panel{overflow-y:auto;flex:1}
+.side-menu-section h3{font-size:18px;font-weight:700;margin:0 0 10px}
+.side-menu-section a{display:flex;justify-content:space-between;align-items:center;text-decoration:none;color:#222;padding:8px 0;font-size:15px;line-height:1.25}
+.side-menu-section a:hover{background:#eee}
+.side-menu-section .side-submenu-link span{font-size:25px;color:#777}
+.side-see-toggle{border:0;background:transparent;padding:9px 0;color:#333;cursor:pointer;font-size:14px}
+.side-see-toggle:hover{text-decoration:underline}
+.side-extra-items{border-top:1px solid #eee;margin-top:4px;padding-top:4px}
+.side-submenu-panel{padding:0 20px 24px}
+.side-submenu-panel>button{display:block;background:transparent;border:0;border-bottom:1px solid #ddd;padding:14px 0;width:100%;text-align:left;font-weight:700;cursor:pointer}
+.side-submenu-browse{font-size:13px;color:#555;margin:16px 0 6px}
+.side-submenu-greeting{font-weight:700;margin:0 0 16px}
+.side-submenu-panel h3{font-size:20px;margin:12px 0}
+.side-submenu-panel #sideSubmenuLinks a{display:block;text-decoration:none;color:#333;padding:9px 0;font-size:15px}
+.side-submenu-panel #sideSubmenuLinks a:hover{text-decoration:underline}

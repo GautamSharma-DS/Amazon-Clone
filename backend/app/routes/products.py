@@ -19,13 +19,15 @@ def create_product(
     db: Session = Depends(get_db)
 ):
     new_product = Product(
-        name=product.name,
-        description=product.description,
-        category=product.category,
-        price=product.price,
-        image_url=product.image_url,
-        stock=product.stock
-    )
+    name=product.name,
+    description=product.description,
+    category=product.category,
+    price=product.price,
+    rating=product.rating,
+    image_url=product.image_url,
+    stock=product.stock
+
+)
 
     db.add(new_product)
     db.commit()
@@ -84,6 +86,7 @@ def update_product(
     product.description = product_data.description
     product.category = product_data.category
     product.price = product_data.price
+    product.rating = product_data.rating
     product.image_url = product_data.image_url
     product.stock = product_data.stock
 

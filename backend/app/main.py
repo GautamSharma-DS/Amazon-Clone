@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from .database import Base, engine
 from .routes.products import router as product_router
@@ -16,6 +17,17 @@ app = FastAPI(
     title="Amazon Clone API",
     description="Backend API for Amazon Clone",
     version="1.0.0"
+)
+
+
+# Allow the frontend (Live Server / local development)
+# to communicate with the FastAPI backend.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 

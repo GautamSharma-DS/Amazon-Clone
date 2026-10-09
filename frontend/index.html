@@ -292,204 +292,110 @@
 ===================================================== -->
 
 <div class="side-menu-overlay" id="sideMenuOverlay"></div>
-
-<aside class="amazon-side-menu" id="amazonSideMenu">
-
-    <div class="side-menu-header">
-
-        <div class="side-menu-user">
-            👤
-            <span>Hello, sign in</span>
+<aside class="amazon-side-menu" id="amazonSideMenu" aria-label="Main menu">
+  <div class="side-menu-header">
+    <div class="side-menu-user">👤 <span id="sideMenuGreeting">Hello, sign in</span></div>
+    <button type="button" class="side-menu-close" id="sideMenuClose" aria-label="Close menu">✕</button>
+  </div>
+  <div class="side-menu-main" id="sideMenuMain">
+    <section class="side-menu-section">
+      <h3>Trending</h3>
+      <a href="#" data-menu-action="Bestsellers">Bestsellers</a>
+      <a href="#" data-menu-action="New Releases">New Releases</a>
+    </section>
+    <section class="side-menu-section">
+      <h3>Digital Content and Devices</h3>
+      <div class="side-expand-group" data-expand-group="digital">
+        <a href="#" data-menu-action="Echo & Alexa" class="side-submenu-link">Echo &amp; Alexa <span>›</span></a>
+        <a href="#" data-menu-action="Fire TV" class="side-submenu-link">Fire TV <span>›</span></a>
+        <a href="#" data-menu-action="Kindle E-Readers & eBooks" class="side-submenu-link">Kindle E-Readers &amp; eBooks <span>›</span></a>
+        <a href="#" data-menu-action="Audible Audiobooks" class="side-submenu-link">Audible Audiobooks <span>›</span></a>
+        <a href="#" data-menu-action="Amazon Prime Video" class="side-submenu-link">Amazon Prime Video <span>›</span></a>
+        <a href="#" data-menu-action="Amazon Music" class="side-submenu-link">Amazon Music <span>›</span></a>
+      </div>
+    </section>
+    <section class="side-menu-section">
+      <h3>Shop by Category</h3>
+      <div class="side-expand-group" data-expand-group="categories">
+        <a href="#" data-menu-action="Mobiles, Tablets & More">Mobiles, Tablets &amp; More</a>
+        <a href="#" data-menu-action="TV, Audio & Cameras">TV, Audio &amp; Cameras</a>
+        <a href="#" data-menu-action="Men's Clothing">Men's Clothing</a>
+        <a href="#" data-menu-action="Women's Clothing">Women's Clothing</a>
+        <div class="side-extra-items" hidden>
+          <a href="#" data-menu-action="Home & Kitchen">Home &amp; Kitchen</a>
+          <a href="#" data-menu-action="Beauty & Health">Beauty &amp; Health</a>
+          <a href="#" data-menu-action="Sports & Fitness">Sports, Fitness, Bags, Luggage</a>
+          <a href="#" data-menu-action="Toys & Baby Products">Toys, Baby Products, Kids' Fashion</a>
+          <a href="#" data-menu-action="Car & Motorbike">Car, Motorbike, Industrial</a>
+          <a href="#" data-menu-action="Books">Books</a>
+          <a href="#" data-menu-action="Movies & TV Shows">Movies, Music &amp; Video Games</a>
         </div>
-
-        <button
-            type="button"
-            class="side-menu-close"
-            id="sideMenuClose">
-            ✕
-        </button>
-
-    </div>
-
-
-    <div class="side-menu-section">
-
-        <h3>Trending</h3>
-
-        <a href="#">Best Sellers</a>
-        <a href="#">New Releases</a>
-        <a href="#">Movers and Shakers</a>
-
-    </div>
-
-
-    <div class="side-menu-section">
-
-        <h3>Digital Content & Devices</h3>
-
-        <a href="#">Echo & Alexa</a>
-        <a href="#">Fire TV</a>
-        <a href="#">Kindle E-readers & Books</a>
-        <a href="#">Audible Audiobooks</a>
-
-    </div>
-
-
-    <div class="side-menu-section">
-
-        <h3>Shop by Category</h3>
-
-        <a href="#">Mobiles</a>
-        <a href="#">Computers</a>
-        <a href="#">Electronics</a>
-        <a href="#">Fashion</a>
-        <a href="#">Home & Kitchen</a>
-        <a href="#">Beauty</a>
-        <a href="#">Toys</a>
-        <a href="#">Pet Care</a>
-
-    </div>
-
-
-    <div class="side-menu-section">
-
-        <h3>Programs & Features</h3>
-
-        <a href="#">Amazon Pay</a>
-        <a href="#">Today's Deals</a>
-        <a href="#">Coupons</a>
-        <a href="#">Flights</a>
-
-    </div>
-
-
-    <div class="side-menu-section">
-
-        <h3>Help & Settings</h3>
-
-        <a href="#">Your Account</a>
-        <a href="#">Customer Service</a>
-        <a href="#">Sign in</a>
-
-    </div>
-
+      </div>
+      <button class="side-see-toggle" type="button" data-toggle-extra="categories">See all <span>⌄</span></button>
+    </section>
+    <section class="side-menu-section">
+      <h3>Programs &amp; Features</h3>
+      <div class="side-expand-group" data-expand-group="programs">
+        <a href="#" data-menu-action="Gift Cards & Mobile Recharges">Gift Cards &amp; Mobile Recharges</a>
+        <div class="side-extra-items" hidden>
+          <a href="#" data-menu-action="Amazon Launchpad">Amazon Launchpad</a>
+          <a href="#" data-menu-action="Amazon Business">Amazon Business</a>
+          <a href="#" data-menu-action="Handloom and Handicrafts">Handloom and Handicrafts</a>
+          <a href="#" data-menu-action="Amazon Saheli">Amazon Saheli</a>
+          <a href="#" data-menu-action="Amazon Custom">Amazon Custom</a>
+          <a href="#" data-menu-action="Flight Tickets">Flight Tickets</a>
+          <a href="#" data-menu-action="Buy more, Save more">Buy more, Save more</a>
+          <a href="#" data-menu-action="Clearance store">Clearance store</a>
+          <a href="#" data-menu-action="International Brands">International Brands</a>
+          <a href="#" data-menu-action="Gift Cards">Gift Cards</a>
+        </div>
+      </div>
+      <button class="side-see-toggle" type="button" data-toggle-extra="programs">See all <span>⌄</span></button>
+    </section>
+    <section class="side-menu-section">
+      <h3>Help &amp; Settings</h3>
+      <a href="#" data-menu-action="Customer Service">Customer Service</a>
+      <a href="#" data-menu-action="your-account">Your Account</a>
+      <a href="#" id="sideMenuSignOut">Sign Out</a>
+    </section>
+  </div>
+  <div class="side-submenu-panel" id="sideSubmenuPanel" hidden>
+    <button type="button" id="sideSubmenuBack">‹ &nbsp; Main menu</button>
+    <p class="side-submenu-browse">Browse all categories</p>
+    <p class="side-submenu-greeting" id="sideSubmenuGreeting">Hello, sign in</p>
+    <h3 id="sideSubmenuTitle"></h3>
+    <div id="sideSubmenuLinks"></div>
+  </div>
 </aside>
 
 <!-- =====================================================
      ACCOUNT & LISTS POPUP
 ===================================================== -->
 
-<div
-    class="account-popup"
-    id="accountPopup">
-
-    <div class="account-signin-area">
-
-        <button
-            type="button"
-            class="account-signin-button"
-            id="accountSignInButton">
-
-            Sign in
-
-        </button>
-
-        <p>
-            New customer?
-            <a
-                href="https://www.amazon.in/ap/register"
-                target="_blank">
-                Start here.
-            </a>
-        </p>
-
+<div class="account-popup account-signin-area" id="accountPopup" aria-hidden="true">
+  <div class="account-popup-arrow"></div>
+  <div id="loggedOutSection">
+    <button type="button" class="account-signin-button" id="accountSignInButton">Sign in</button>
+    <p class="account-new-customer">New customer? <a href="signup.html">Start here.</a></p>
+  </div>
+  <div id="loggedInSection" hidden>
+    <div class="account-popup-greeting">Hello, <strong id="accountUserName"></strong></div>
+    <div class="account-popup-columns">
+      <section><h3>Your Lists</h3>
+        <a href="#" data-menu-action="wishlist-create">Create a Wish List</a>
+        <a href="#" data-menu-action="wishlist-website">Wish from Any Website</a>
+      </section>
+      <section><h3>Your Account</h3>
+        <a href="#" data-menu-action="switch-account">Switch Accounts</a>
+        <a href="#" id="accountLogoutButton">Sign Out</a>
+        <hr>
+        <a href="#" data-menu-action="your-account">Your Account</a>
+        <a href="#" data-menu-action="orders">Your Orders</a>
+        <a href="#" data-menu-action="wishlist">Your Wish List</a>
+      </section>
     </div>
-
-
-    <div class="account-columns">
-
-
-        <!-- YOUR LISTS -->
-
-        <div class="account-column">
-
-            <h3>
-                Your Lists
-            </h3>
-
-            <a href="#">Create a Wish List</a>
-
-            <a href="#">Wish from Any Website</a>
-
-            <a href="#">Baby Wishlist</a>
-
-            <a href="#">Discover Your Style</a>
-
-            <a href="#">Explore Showroom</a>
-
-        </div>
-
-
-        <!-- YOUR ACCOUNT -->
-
-        <div class="account-column">
-
-            <h3>
-                Your Account
-            </h3>
-
-            <a href="#">Your Account</a>
-
-            <a href="cart.html">
-                Your Orders
-            </a>
-
-            <a href="#">Your Wish List</a>
-
-            <a href="#">Keep shopping for</a>
-
-            <a href="#">
-                Your Recommendations
-            </a>
-
-            <a href="#">
-                Your Prime Membership
-            </a>
-
-            <a href="#">
-                Your Prime Video
-            </a>
-
-            <a href="#">
-                Your Subscribe & Save Items
-            </a>
-
-            <a href="#">
-                Memberships & Subscriptions
-            </a>
-
-            <a href="#">
-                Your Seller Account
-            </a>
-
-            <a href="#">
-                Manage Your Content and Devices
-            </a>
-
-            <a href="#">
-                Your Music Library
-            </a>
-
-            <a href="#">
-                Register for a free Business Account
-            </a>
-
-        </div>
-
-    </div>
-
+  </div>
 </div>
-
 
 <!-- =========================================================
      GREAT INDIAN FESTIVAL DEAL CAROUSEL
